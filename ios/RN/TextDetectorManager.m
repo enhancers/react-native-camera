@@ -1,6 +1,8 @@
 #import "TextDetectorManager.h"
 #if __has_include(<MLKitTextRecognition/MLKitTextRecognition.h>)
 @import MLKitVision;
+@import MLKitTextRecognition;
+@import MLKitTextRecognitionCommon;
 
 @interface TextDetectorManager ()
 @property(nonatomic, strong) MLKTextRecognizer *textRecognizer;
@@ -44,7 +46,7 @@
 {
   NSMutableArray *textBlocks = [[NSMutableArray alloc] init];
   for (MLKTextBlock *textBlock in features) {
-      NSDictionary *textBlockDict = 
+      NSDictionary *textBlockDict =
       @{@"type": @"block", @"value" : textBlock.text, @"bounds" : [self processBounds:textBlock.frame], @"components" : [self processLine:textBlock.lines]};
       [textBlocks addObject:textBlockDict];
   }
@@ -55,7 +57,7 @@
 {
   NSMutableArray *lineBlocks = [[NSMutableArray alloc] init];
   for (MLKTextLine *textLine in lines) {
-        NSDictionary *textLineDict = 
+        NSDictionary *textLineDict =
         @{@"type": @"line", @"value" : textLine.text, @"bounds" : [self processBounds:textLine.frame], @"components" : [self processElement:textLine.elements]};
         [lineBlocks addObject:textLineDict];
   }
@@ -66,7 +68,7 @@
 {
   NSMutableArray *elementBlocks = [[NSMutableArray alloc] init];
   for (MLKTextElement *textElement in elements) {
-        NSDictionary *textElementDict = 
+        NSDictionary *textElementDict =
         @{@"type": @"element", @"value" : textElement.text, @"bounds" : [self processBounds:textElement.frame]};
         [elementBlocks addObject:textElementDict];
   }
@@ -81,12 +83,12 @@
   float originY = bounds.origin.y * _scaleY;
   NSDictionary *boundsDict =
   @{
-    @"size" : 
+    @"size" :
               @{
-                @"width" : @(width), 
+                @"width" : @(width),
                 @"height" : @(height)
-                }, 
-    @"origin" : 
+                },
+    @"origin" :
               @{
                 @"x" : @(originX),
                 @"y" : @(originY)
