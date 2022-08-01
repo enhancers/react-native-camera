@@ -26,11 +26,11 @@ import android.view.ViewGroup;
 
 import org.reactnative.camera.R;
 
-class SurfaceViewPreview extends PreviewImpl {
+class SurfaceViewPreview2 extends PreviewImpl2 {
 
     final SurfaceView mSurfaceView;
 
-    SurfaceViewPreview(Context context, ViewGroup parent) {
+    SurfaceViewPreview2(Context context, ViewGroup parent) {
         final View view = View.inflate(context, R.layout.surface_view, parent);
         mSurfaceView = (SurfaceView) view.findViewById(R.id.surface_view);
         final SurfaceHolder holder = mSurfaceView.getHolder();

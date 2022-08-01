@@ -14,7 +14,7 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.uimanager.UIManagerModule;
-import com.google.android.cameraview.CameraView;
+import com.google.android.cameraview.CameraView2;
 import com.google.zxing.Result;
 import org.reactnative.camera.events.*;
 import org.reactnative.barcodedetector.RNBarcodeDetector;
@@ -336,8 +336,8 @@ public class RNCameraViewHelper {
 
   // Utilities
 
-  public static int getCorrectCameraRotation(int rotation, int facing, int cameraOrientation) {
-    if (facing == CameraView.FACING_FRONT) {
+  public static int getCorrectCameraRotation(int rotation, int facing2, int cameraOrientation) {
+    if (facing2 == CameraView2.FACING_FRONT) {
       // Tested the below line and there's no need to do the mirror calculation
       return (cameraOrientation + rotation) % 360;
     } else {

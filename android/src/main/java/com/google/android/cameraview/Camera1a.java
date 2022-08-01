@@ -45,7 +45,7 @@ import org.reactnative.camera.utils.ObjectUtils;
 
 
 @SuppressWarnings("deprecation")
-class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
+class Camera1a extends CameraViewImpl2 implements MediaRecorder.OnInfoListener,
                                                 MediaRecorder.OnErrorListener, Camera.PreviewCallback {
 
     private static final int INVALID_CAMERA_ID = -1;
@@ -55,22 +55,22 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
     private static final String[] BROKEN_ROTATION_DEVICE_MODELS = {"SM-G532M", "SM-T813", "SM-T819", "SM-T307U", "SM-T713"};
 
     static {
-        FLASH_MODES.put(Constants.FLASH_OFF, Camera.Parameters.FLASH_MODE_OFF);
-        FLASH_MODES.put(Constants.FLASH_ON, Camera.Parameters.FLASH_MODE_ON);
-        FLASH_MODES.put(Constants.FLASH_TORCH, Camera.Parameters.FLASH_MODE_TORCH);
-        FLASH_MODES.put(Constants.FLASH_AUTO, Camera.Parameters.FLASH_MODE_AUTO);
-        FLASH_MODES.put(Constants.FLASH_RED_EYE, Camera.Parameters.FLASH_MODE_RED_EYE);
+        FLASH_MODES.put(Constants2.FLASH_OFF, Camera.Parameters.FLASH_MODE_OFF);
+        FLASH_MODES.put(Constants2.FLASH_ON, Camera.Parameters.FLASH_MODE_ON);
+        FLASH_MODES.put(Constants2.FLASH_TORCH, Camera.Parameters.FLASH_MODE_TORCH);
+        FLASH_MODES.put(Constants2.FLASH_AUTO, Camera.Parameters.FLASH_MODE_AUTO);
+        FLASH_MODES.put(Constants2.FLASH_RED_EYE, Camera.Parameters.FLASH_MODE_RED_EYE);
     }
 
     private static final SparseArrayCompat<String> WB_MODES = new SparseArrayCompat<>();
 
     static {
-      WB_MODES.put(Constants.WB_AUTO, Camera.Parameters.WHITE_BALANCE_AUTO);
-      WB_MODES.put(Constants.WB_CLOUDY, Camera.Parameters.WHITE_BALANCE_CLOUDY_DAYLIGHT);
-      WB_MODES.put(Constants.WB_SUNNY, Camera.Parameters.WHITE_BALANCE_DAYLIGHT);
-      WB_MODES.put(Constants.WB_SHADOW, Camera.Parameters.WHITE_BALANCE_SHADE);
-      WB_MODES.put(Constants.WB_FLUORESCENT, Camera.Parameters.WHITE_BALANCE_FLUORESCENT);
-      WB_MODES.put(Constants.WB_INCANDESCENT, Camera.Parameters.WHITE_BALANCE_INCANDESCENT);
+      WB_MODES.put(Constants2.WB_AUTO, Camera.Parameters.WHITE_BALANCE_AUTO);
+      WB_MODES.put(Constants2.WB_CLOUDY, Camera.Parameters.WHITE_BALANCE_CLOUDY_DAYLIGHT);
+      WB_MODES.put(Constants2.WB_SUNNY, Camera.Parameters.WHITE_BALANCE_DAYLIGHT);
+      WB_MODES.put(Constants2.WB_SHADOW, Camera.Parameters.WHITE_BALANCE_SHADE);
+      WB_MODES.put(Constants2.WB_FLUORESCENT, Camera.Parameters.WHITE_BALANCE_FLUORESCENT);
+      WB_MODES.put(Constants2.WB_INCANDESCENT, Camera.Parameters.WHITE_BALANCE_INCANDESCENT);
     }
 
     private static final int FOCUS_AREA_SIZE_DEFAULT = 300;
@@ -99,16 +99,16 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
 
     private final AtomicBoolean mIsRecording = new AtomicBoolean(false);
 
-    private final SizeMap mPreviewSizes = new SizeMap();
+    private final SizeMap2 mPreviewSizes = new SizeMap2();
 
     private boolean mIsPreviewActive = false;
     private boolean mShowingPreview = true; // preview enabled by default
 
-    private final SizeMap mPictureSizes = new SizeMap();
+    private final SizeMap2 mPictureSizes = new SizeMap2();
 
-    private Size mPictureSize;
+    private Size2 mPictureSize;
 
-    private AspectRatio mAspectRatio;
+    private AspectRatio2 mAspectRatio2;
 
     private boolean mAutoFocus;
 
@@ -122,7 +122,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
 
     private int mDeviceOrientation;
 
-    private int mOrientation = Constants.ORIENTATION_AUTO;
+    private int mOrientation = Constants2.ORIENTATION_AUTO;
 
     private float mZoom;
 
@@ -139,10 +139,10 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
 
     private SurfaceTexture mPreviewTexture;
 
-    Camera1(Callback callback, PreviewImpl preview, Handler bgHandler) {
+    Camera1a(Callback callback, PreviewImpl2 preview, Handler bgHandler) {
         super(callback, preview, bgHandler);
 
-        preview.setCallback(new PreviewImpl.Callback() {
+        preview.setCallback(new PreviewImpl2.Callback() {
             @Override
             public void onSurfaceChanged() {
 
@@ -151,7 +151,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
                 // otherwise, just update our surface
 
 
-                synchronized(Camera1.this){
+                synchronized(Camera1a.this){
                     if(!surfaceWasDestroyed){
                         updateSurface();
                     }
@@ -210,7 +210,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
                 mBgHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        synchronized(Camera1.this){
+                        synchronized(Camera1a.this){
                             // check for camera null again since it might have changed
                             if(mCamera != null){
                                 mustUpdateSurface = false;
@@ -285,7 +285,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
                     mCallback.onRecordingEnd();
 
                     int deviceOrientation = displayOrientationToOrientationEnum(mDeviceOrientation);
-                    mCallback.onVideoRecorded(mVideoPath, mOrientation != Constants.ORIENTATION_AUTO ? mOrientation : deviceOrientation, deviceOrientation);
+                    mCallback.onVideoRecorded(mVideoPath, mOrientation != Constants2.ORIENTATION_AUTO ? mOrientation : deviceOrientation, deviceOrientation);
                 }
             }
 
@@ -378,11 +378,11 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
     }
 
     @Override
-    void setFacing(int facing) {
-        if (mFacing == facing) {
+    void setFacing(int facing2) {
+        if (mFacing == facing2) {
             return;
         }
-        mFacing = facing;
+        mFacing = facing2;
 
         mBgHandler.post(new Runnable() {
             @Override
@@ -432,14 +432,14 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
     }
 
     @Override
-    Set<AspectRatio> getSupportedAspectRatios() {
-        SizeMap idealAspectRatios = mPreviewSizes;
-        for (AspectRatio aspectRatio : idealAspectRatios.ratios()) {
+    Set<AspectRatio2> getSupportedAspectRatio2s() {
+        SizeMap2 idealAspectRatio2s = mPreviewSizes;
+        for (AspectRatio2 aspectRatio : idealAspectRatio2s.ratios()) {
             if (mPictureSizes.sizes(aspectRatio) == null) {
-                idealAspectRatios.remove(aspectRatio);
+                idealAspectRatio2s.remove(aspectRatio);
             }
         }
-        return idealAspectRatios.ratios();
+        return idealAspectRatio2s.ratios();
     }
 
 
@@ -460,23 +460,23 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
     }
 
     @Override
-    SortedSet<Size> getAvailablePictureSizes(AspectRatio ratio) {
+    SortedSet<Size2> getAvailablePictureSizes(AspectRatio2 ratio) {
         return mPictureSizes.sizes(ratio);
     }
 
     // Returns the best available size match for a given
     // width and height
     // returns the biggest available size
-    private Size getBestSizeMatch(int desiredWidth, int desiredHeight, SortedSet<Size> sizes) {
+    private Size2 getBestSizeMatch(int desiredWidth, int desiredHeight, SortedSet<Size2> sizes) {
         if(sizes == null || sizes.isEmpty()){
             return null;
         }
 
-        Size result = sizes.last();
+        Size2 result = sizes.last();
 
         // iterate from smallest to largest, and stay with the closest-biggest match
         if(desiredWidth != 0 && desiredHeight != 0){
-            for (Size size : sizes) {
+            for (Size2 size : sizes) {
                 if (desiredWidth <= size.getWidth() && desiredHeight <= size.getHeight()) {
                     result = size;
                     break;
@@ -489,7 +489,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
 
 
     @Override
-    void setPictureSize(Size size) {
+    void setPictureSize(Size2 size) {
 
         // if no changes, don't do anything
         if(size == null && mPictureSize == null){
@@ -506,7 +506,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
             mBgHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    synchronized(Camera1.this){
+                    synchronized(Camera1a.this){
                         if(mCamera != null){
                             adjustCameraParameters();
                         }
@@ -517,27 +517,27 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
     }
 
     @Override
-    Size getPictureSize() {
+    Size2 getPictureSize() {
         return mPictureSize;
     }
 
     @Override
-    boolean setAspectRatio(final AspectRatio ratio) {
-        if (mAspectRatio == null || !isCameraOpened()) {
+    boolean setAspectRatio2(final AspectRatio2 ratio) {
+        if (mAspectRatio2 == null || !isCameraOpened()) {
             // Handle this later when camera is opened
-            mAspectRatio = ratio;
+            mAspectRatio2 = ratio;
             return true;
-        } else if (!mAspectRatio.equals(ratio)) {
-            final Set<Size> sizes = mPreviewSizes.sizes(ratio);
+        } else if (!mAspectRatio2.equals(ratio)) {
+            final Set<Size2> sizes = mPreviewSizes.sizes(ratio);
             if (sizes == null) {
-                // do nothing, ratio remains unchanged. Consistent with Camera2 and initial mount behaviour
-                Log.w("CAMERA_1::", "setAspectRatio received an unsupported value and will be ignored.");
+                // do nothing, ratio remains unchanged. Consistent with Camera2a and initial mount behaviour
+                Log.w("CAMERA_1::", "setAspectRatio2 received an unsupported value and will be ignored.");
             } else {
-                mAspectRatio = ratio;
+                mAspectRatio2 = ratio;
                 mBgHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        synchronized(Camera1.this){
+                        synchronized(Camera1a.this){
                             if(mCamera != null){
                                 adjustCameraParameters();
                             }
@@ -551,8 +551,8 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
     }
 
     @Override
-    AspectRatio getAspectRatio() {
-        return mAspectRatio;
+    AspectRatio2 getAspectRatio2() {
+        return mAspectRatio2;
     }
 
     @Override
@@ -583,11 +583,11 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
     }
 
     @Override
-    void setFlash(int flash) {
-        if (flash == mFlash) {
+    void setFlash(int flash2) {
+        if (flash2 == mFlash) {
             return;
         }
-        if (setFlashInternal(flash)) {
+        if (setFlashInternal(flash2)) {
             try {
                 if(mCamera != null){
                     mCamera.setParameters(mCameraParameters);
@@ -629,7 +629,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
 
     @Override
     public void setFocusDepth(float value) {
-        // not supported for Camera1
+        // not supported for Camera1a
     }
 
     @Override
@@ -713,13 +713,13 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
 
     int orientationEnumToRotation(int orientation) {
         switch(orientation) {
-            case Constants.ORIENTATION_DOWN:
+            case Constants2.ORIENTATION_DOWN:
                 return 180;
-            case Constants.ORIENTATION_LEFT:
+            case Constants2.ORIENTATION_LEFT:
                 return 270;
-            case Constants.ORIENTATION_RIGHT:
+            case Constants2.ORIENTATION_RIGHT:
                 return 90;
-            case Constants.ORIENTATION_UP:
+            case Constants2.ORIENTATION_UP:
             default:
                 return 0;
         }
@@ -728,13 +728,13 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
     int displayOrientationToOrientationEnum(int rotation) {
         switch (rotation) {
             case 0:
-                return Constants.ORIENTATION_UP;
+                return Constants2.ORIENTATION_UP;
             case 90:
-                return Constants.ORIENTATION_RIGHT;
+                return Constants2.ORIENTATION_RIGHT;
             case 180:
-                return Constants.ORIENTATION_DOWN;
+                return Constants2.ORIENTATION_DOWN;
             case 270:
-                return Constants.ORIENTATION_LEFT;
+                return Constants2.ORIENTATION_LEFT;
             default:
                 return 1;
         }
@@ -749,7 +749,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
         if (!mIsRecording.get() && isPictureCaptureInProgress.compareAndSet(false, true)) {
 
             try {
-                if (options.hasKey("orientation") && options.getInt("orientation") != Constants.ORIENTATION_AUTO) {
+                if (options.hasKey("orientation") && options.getInt("orientation") != Constants2.ORIENTATION_AUTO) {
                     mOrientation = options.getInt("orientation");
                     int rotation = orientationEnumToRotation(mOrientation);
                     mCameraParameters.setRotation(calcCameraRotation(rotation));
@@ -799,14 +799,14 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
                         // our camera might have been released
                         // when this callback fires, so make sure we have
                         // exclusive access when restoring its preview
-                        synchronized(Camera1.this){
+                        synchronized(Camera1a.this){
                             if(mCamera != null){
                                 if (options.hasKey("pauseAfterCapture") && !options.getBoolean("pauseAfterCapture")) {
                                     try {
                                         mCamera.startPreview();
                                         mIsPreviewActive = true;
                                         if (mIsScanning) {
-                                            mCamera.setPreviewCallback(Camera1.this);
+                                            mCamera.setPreviewCallback(Camera1a.this);
                                         }
                                     } catch (Exception e) {
                                         mIsPreviewActive = false;
@@ -827,7 +827,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
 
                         isPictureCaptureInProgress.set(false);
 
-                        mOrientation = Constants.ORIENTATION_AUTO;
+                        mOrientation = Constants2.ORIENTATION_AUTO;
                         mCallback.onPictureTaken(data, displayOrientationToOrientationEnum(mDeviceOrientation), softwareRotation);
 
                         if(mustUpdateSurface){
@@ -849,7 +849,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
 
         // make sure compareAndSet is last because we are setting it
         if (!isPictureCaptureInProgress.get() && mIsRecording.compareAndSet(false, true)) {
-            if (orientation != Constants.ORIENTATION_AUTO) {
+            if (orientation != Constants2.ORIENTATION_AUTO) {
                 mOrientation = orientation;
             }
             try {
@@ -859,7 +859,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
 
                 // after our media recorder is set and started, we must update
                 // some camera parameters again because the recorder's exclusive access (after unlock is called)
-                // might interfere with the camera parameters (e.g., flash and zoom)
+                // might interfere with the camera parameters (e.g., flash2 and zoom)
                 // This should also be safe to call since both recording and
                 // camera parameters are getting set by the same thread and process.
                 // https://stackoverflow.com/a/14855668/1777914
@@ -870,7 +870,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
                 }
 
                 int deviceOrientation = displayOrientationToOrientationEnum(mDeviceOrientation);
-                mCallback.onRecordingStart(path, mOrientation != Constants.ORIENTATION_AUTO ? mOrientation : deviceOrientation, deviceOrientation);
+                mCallback.onRecordingStart(path, mOrientation != Constants2.ORIENTATION_AUTO ? mOrientation : deviceOrientation, deviceOrientation);
 
                 if (mPlaySoundOnRecord) {
                     sound.play(MediaActionSound.START_VIDEO_RECORDING);
@@ -947,7 +947,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
                 return;
             }
             mDeviceOrientation = deviceOrientation;
-            if (isCameraOpened() && mOrientation == Constants.ORIENTATION_AUTO && !mIsRecording.get() && !isPictureCaptureInProgress.get()) {
+            if (isCameraOpened() && mOrientation == Constants2.ORIENTATION_AUTO && !mIsRecording.get() && !isPictureCaptureInProgress.get()) {
                 try {
                     mCameraParameters.setRotation(calcCameraRotation(deviceOrientation));
                     mCamera.setParameters(mCameraParameters);
@@ -989,9 +989,9 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
     }
 
     @Override
-    public Size getPreviewSize() {
+    public Size2 getPreviewSize() {
         Camera.Size cameraSize = mCameraParameters.getPreviewSize();
-        return new Size(cameraSize.width, cameraSize.height);
+        return new Size2(cameraSize.width, cameraSize.height);
     }
 
     /**
@@ -1056,26 +1056,26 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
             // Supported preview sizes
             mPreviewSizes.clear();
             for (Camera.Size size : mCameraParameters.getSupportedPreviewSizes()) {
-                mPreviewSizes.add(new Size(size.width, size.height));
+                mPreviewSizes.add(new Size2(size.width, size.height));
             }
 
             // Supported picture sizes;
             mPictureSizes.clear();
             for (Camera.Size size : mCameraParameters.getSupportedPictureSizes()) {
-                mPictureSizes.add(new Size(size.width, size.height));
+                mPictureSizes.add(new Size2(size.width, size.height));
             }
 
-            // to be consistent with Camera2, and to prevent crashes on some devices
+            // to be consistent with Camera2a, and to prevent crashes on some devices
             // do not allow preview sizes that are not also in the picture sizes set
-            for (AspectRatio aspectRatio : mPreviewSizes.ratios()) {
+            for (AspectRatio2 aspectRatio : mPreviewSizes.ratios()) {
                 if (mPictureSizes.sizes(aspectRatio) == null) {
                     mPreviewSizes.remove(aspectRatio);
                 }
             }
 
-            // AspectRatio
-            if (mAspectRatio == null) {
-                mAspectRatio = Constants.DEFAULT_ASPECT_RATIO;
+            // AspectRatio2
+            if (mAspectRatio2 == null) {
+                mAspectRatio2 = Constants2.DEFAULT_ASPECT_RATIO;
             }
 
             adjustCameraParameters();
@@ -1098,11 +1098,11 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
         }
     }
 
-    private AspectRatio chooseAspectRatio() {
-        AspectRatio r = null;
-        for (AspectRatio ratio : mPreviewSizes.ratios()) {
+    private AspectRatio2 chooseAspectRatio2() {
+        AspectRatio2 r = null;
+        for (AspectRatio2 ratio : mPreviewSizes.ratios()) {
             r = ratio;
-            if (ratio.equals(Constants.DEFAULT_ASPECT_RATIO)) {
+            if (ratio.equals(Constants2.DEFAULT_ASPECT_RATIO)) {
                 return ratio;
             }
         }
@@ -1110,17 +1110,17 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
     }
 
     void adjustCameraParameters() {
-        SortedSet<Size> sizes = mPreviewSizes.sizes(mAspectRatio);
+        SortedSet<Size2> sizes = mPreviewSizes.sizes(mAspectRatio2);
         if (sizes == null) { // Not supported
             Log.w("CAMERA_1::", "adjustCameraParameters received an unsupported aspect ratio value and will be ignored.");
-            mAspectRatio = chooseAspectRatio();
-            sizes = mPreviewSizes.sizes(mAspectRatio);
+            mAspectRatio2 = chooseAspectRatio2();
+            sizes = mPreviewSizes.sizes(mAspectRatio2);
         }
 
         // make sure both preview and picture size are always
         // valid for the currently chosen camera and aspect ratio
-        Size size = chooseOptimalSize(sizes);
-        Size pictureSize = null;
+        Size2 size = chooseOptimalSize(sizes);
+        Size2 pictureSize = null;
 
         // do not alter mPictureSize
         // since it may be valid for other camera/aspect ratio updates
@@ -1129,14 +1129,14 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
             pictureSize = getBestSizeMatch(
                 mPictureSize.getWidth(),
                 mPictureSize.getHeight(),
-                mPictureSizes.sizes(mAspectRatio)
+                mPictureSizes.sizes(mAspectRatio2)
             );
         }
         else{
             pictureSize = getBestSizeMatch(
                 0,
                 0,
-                mPictureSizes.sizes(mAspectRatio)
+                mPictureSizes.sizes(mAspectRatio2)
             );
         }
 
@@ -1154,7 +1154,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
         // and has a chance of blowing up when `writeExif` is used
         mCameraParameters.setJpegThumbnailSize(0, 0);
 
-        if (mOrientation != Constants.ORIENTATION_AUTO) {
+        if (mOrientation != Constants2.ORIENTATION_AUTO) {
             mCameraParameters.setRotation(calcCameraRotation(orientationEnumToRotation(mOrientation)));
         } else {
             mCameraParameters.setRotation(calcCameraRotation(mDeviceOrientation));
@@ -1163,7 +1163,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
         setAutoFocusInternal(mAutoFocus);
         setFlashInternal(mFlash);
         setExposureInternal(mExposure);
-        setAspectRatio(mAspectRatio);
+        setAspectRatio2(mAspectRatio2);
         setZoomInternal(mZoom);
         setWhiteBalanceInternal(mWhiteBalance);
         setScanningInternal(mIsScanning);
@@ -1180,7 +1180,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
     }
 
     @SuppressWarnings("SuspiciousNameCombination")
-    private Size chooseOptimalSize(SortedSet<Size> sizes) {
+    private Size2 chooseOptimalSize(SortedSet<Size2> sizes) {
         if (!mPreview.isReady()) { // Not yet laid out
             return sizes.first(); // Return the smallest size
         }
@@ -1195,8 +1195,8 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
             desiredWidth = surfaceWidth;
             desiredHeight = surfaceHeight;
         }
-        Size result = null;
-        for (Size size : sizes) { // Iterate from small to large
+        Size2 result = null;
+        for (Size2 size : sizes) { // Iterate from small to large
             if (desiredWidth <= size.getWidth() && desiredHeight <= size.getHeight()) {
                 return size;
 
@@ -1218,12 +1218,12 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
         }
     }
 
-    // Most credit: https://github.com/CameraKit/camerakit-android/blob/master/camerakit-core/src/main/api16/com/wonderkiln/camerakit/Camera1.java
+    // Most credit: https://github.com/CameraKit/camerakit-android/blob/master/camerakit-core/src/main/api16/com/wonderkiln/camerakit/Camera1a.java
     void setFocusArea(final float x, final float y) {
         mBgHandler.post(new Runnable() {
             @Override
             public void run() {
-                synchronized(Camera1.this){
+                synchronized(Camera1a.this){
                     if (mCamera != null) {
 
                         // do not create a new object, use existing.
@@ -1371,7 +1371,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
     private int calcDisplayOrientation(int screenOrientationDegrees) {
         if (mCameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
             return (360 - (mCameraInfo.orientation + screenOrientationDegrees) % 360) % 360;
-        } else {  // back-facing
+        } else {  // back-facing2
             return (mCameraInfo.orientation - screenOrientationDegrees + 360) % 360;
         }
     }
@@ -1391,7 +1391,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
        if (mCameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
            return (mCameraInfo.orientation + screenOrientationDegrees) % 360;
        }
-       // back-facing
+       // back-facing2
        final int landscapeFlip = isLandscape(screenOrientationDegrees) ? 180 : 0;
        return (mCameraInfo.orientation + screenOrientationDegrees + landscapeFlip) % 360;
     }
@@ -1403,8 +1403,8 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
      * @return True if in landscape, false if portrait
      */
     private boolean isLandscape(int orientationDegrees) {
-        return (orientationDegrees == Constants.LANDSCAPE_90 ||
-                orientationDegrees == Constants.LANDSCAPE_270);
+        return (orientationDegrees == Constants2.LANDSCAPE_90 ||
+                orientationDegrees == Constants2.LANDSCAPE_270);
     }
 
     /**
@@ -1434,16 +1434,16 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
     /**
      * @return {@code true} if {@link #mCameraParameters} was modified.
      */
-    private boolean setFlashInternal(int flash) {
+    private boolean setFlashInternal(int flash2) {
         if (isCameraOpened()) {
             List<String> modes = mCameraParameters.getSupportedFlashModes();
-            String mode = FLASH_MODES.get(flash);
+            String mode = FLASH_MODES.get(flash2);
             if(modes == null) {
                 return false;
             }
             if (modes.contains(mode)) {
                 mCameraParameters.setFlashMode(mode);
-                mFlash = flash;
+                mFlash = flash2;
                 return true;
             }
             String currentMode = FLASH_MODES.get(mFlash);
@@ -1453,7 +1453,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
             }
             return false;
         } else {
-            mFlash = flash;
+            mFlash = flash2;
             return false;
         }
     }
@@ -1539,7 +1539,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
                 // if we fail to disable the shutter sound
                 // set mPlaySoundOnCapture to false since it means
                 // we cannot change it and the system will play it
-                // playing the sound ourselves also makes it consistent with Camera2
+                // playing the sound ourselves also makes it consistent with Camera2a
                 if(!res){
                     mPlaySoundOnCapture = false;
                 }
@@ -1603,7 +1603,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
         camProfile.videoBitRate = profile.videoBitRate;
         setCamcorderProfile(camProfile, recordAudio, fps);
 
-        mMediaRecorder.setOrientationHint(calcCameraRotation(mOrientation != Constants.ORIENTATION_AUTO ? orientationEnumToRotation(mOrientation) : mDeviceOrientation));
+        mMediaRecorder.setOrientationHint(calcCameraRotation(mOrientation != Constants2.ORIENTATION_AUTO ? orientationEnumToRotation(mOrientation) : mDeviceOrientation));
 
         if (maxDuration != -1) {
             mMediaRecorder.setMaxDuration(maxDuration);
@@ -1646,11 +1646,11 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
             int deviceOrientation = displayOrientationToOrientationEnum(mDeviceOrientation);
 
             if (mVideoPath == null || !new File(mVideoPath).exists()) {
-                mCallback.onVideoRecorded(null, mOrientation != Constants.ORIENTATION_AUTO ? mOrientation : deviceOrientation, deviceOrientation);
+                mCallback.onVideoRecorded(null, mOrientation != Constants2.ORIENTATION_AUTO ? mOrientation : deviceOrientation, deviceOrientation);
                 return;
             }
 
-            mCallback.onVideoRecorded(mVideoPath, mOrientation != Constants.ORIENTATION_AUTO ? mOrientation : deviceOrientation, deviceOrientation);
+            mCallback.onVideoRecorded(mVideoPath, mOrientation != Constants2.ORIENTATION_AUTO ? mOrientation : deviceOrientation, deviceOrientation);
             mVideoPath = null;
         }
     }

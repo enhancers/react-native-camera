@@ -28,13 +28,13 @@ import android.view.ViewGroup;
 import org.reactnative.camera.R;
 
 @TargetApi(14)
-class TextureViewPreview extends PreviewImpl {
+class TextureViewPreview2 extends PreviewImpl2 {
 
     private final TextureView mTextureView;
 
     private int mDisplayOrientation;
 
-    TextureViewPreview(Context context, ViewGroup parent) {
+    TextureViewPreview2(Context context, ViewGroup parent) {
         final View view = View.inflate(context, R.layout.texture_view, parent);
         mTextureView = (TextureView) view.findViewById(R.id.texture_view);
         mTextureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
@@ -66,7 +66,7 @@ class TextureViewPreview extends PreviewImpl {
         });
     }
 
-    // This method is called only from Camera2.
+    // This method is called only from Camera2a.
     @TargetApi(15)
     @Override
     void setBufferSize(int width, int height) {

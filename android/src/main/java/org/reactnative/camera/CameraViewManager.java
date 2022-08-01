@@ -7,8 +7,8 @@ import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
-import com.google.android.cameraview.AspectRatio;
-import com.google.android.cameraview.Size;
+import com.google.android.cameraview.AspectRatio2;
+import com.google.android.cameraview.Size2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +84,7 @@ public class CameraViewManager extends ViewGroupManager<RNCameraView> {
 
   @ReactProp(name = "ratio")
   public void setRatio(RNCameraView view, String ratio) {
-    view.setAspectRatio(AspectRatio.parse(ratio));
+    view.setAspectRatio2(AspectRatio2.parse(ratio));
   }
 
   @ReactProp(name = "flashMode")
@@ -132,7 +132,7 @@ public class CameraViewManager extends ViewGroupManager<RNCameraView> {
 
   @ReactProp(name = "pictureSize")
   public void setPictureSize(RNCameraView view, String size) {
-    view.setPictureSize(size.equals("None") ? null : Size.parse(size));
+    view.setPictureSize(size.equals("None") ? null : Size2.parse(size));
   }
 
   @ReactProp(name = "playSoundOnCapture")

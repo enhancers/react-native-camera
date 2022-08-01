@@ -23,22 +23,22 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
- * A collection class that automatically groups {@link Size}s by their {@link AspectRatio}s.
+ * A collection class that automatically groups {@link Size2}s by their {@link AspectRatio2}s.
  */
-class SizeMap {
+class SizeMap2 {
 
-    private final ArrayMap<AspectRatio, SortedSet<Size>> mRatios = new ArrayMap<>();
+    private final ArrayMap<AspectRatio2, SortedSet<Size2>> mRatios = new ArrayMap<>();
 
     /**
-     * Add a new {@link Size} to this collection.
+     * Add a new {@link Size2} to this collection.
      *
      * @param size The size to add.
      * @return {@code true} if it is added, {@code false} if it already exists and is not added.
      */
-    public boolean add(Size size) {
-        for (AspectRatio ratio : mRatios.keySet()) {
+    public boolean add(Size2 size) {
+        for (AspectRatio2 ratio : mRatios.keySet()) {
             if (ratio.matches(size)) {
-                final SortedSet<Size> sizes = mRatios.get(ratio);
+                final SortedSet<Size2> sizes = mRatios.get(ratio);
                 if (sizes.contains(size)) {
                     return false;
                 } else {
@@ -48,9 +48,9 @@ class SizeMap {
             }
         }
         // None of the existing ratio matches the provided size; add a new key
-        SortedSet<Size> sizes = new TreeSet<>();
+        SortedSet<Size2> sizes = new TreeSet<>();
         sizes.add(size);
-        mRatios.put(AspectRatio.of(size.getWidth(), size.getHeight()), sizes);
+        mRatios.put(AspectRatio2.of(size.getWidth(), size.getHeight()), sizes);
         return true;
     }
 
@@ -59,15 +59,15 @@ class SizeMap {
      *
      * @param ratio The aspect ratio to be removed.
      */
-    public void remove(AspectRatio ratio) {
+    public void remove(AspectRatio2 ratio) {
         mRatios.remove(ratio);
     }
 
-    Set<AspectRatio> ratios() {
+    Set<AspectRatio2> ratios() {
         return mRatios.keySet();
     }
 
-    SortedSet<Size> sizes(AspectRatio ratio) {
+    SortedSet<Size2> sizes(AspectRatio2 ratio) {
         return mRatios.get(ratio);
     }
 

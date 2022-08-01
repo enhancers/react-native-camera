@@ -14,10 +14,10 @@ public class ImageDimensions {
     this(width, height, rotation, -1);
   }
 
-  public ImageDimensions(int width, int height, int rotation, int facing) {
+  public ImageDimensions(int width, int height, int rotation, int facing2) {
     mWidth = width;
     mHeight = height;
-    mFacing = facing;
+    mFacing = facing2;
     mRotation = rotation;
   }
 

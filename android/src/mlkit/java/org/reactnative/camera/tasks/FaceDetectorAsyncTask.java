@@ -5,7 +5,7 @@ import android.util.Log;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
-import com.google.android.cameraview.CameraView;
+import com.google.android.cameraview.CameraView2;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.mlkit.vision.common.InputImage;
@@ -40,7 +40,7 @@ public class FaceDetectorAsyncTask extends android.os.AsyncTask<Void, Void, Void
       int height,
       int rotation,
       float density,
-      int facing,
+      int facing2,
       int viewWidth,
       int viewHeight,
       int viewPaddingLeft,
@@ -52,7 +52,7 @@ public class FaceDetectorAsyncTask extends android.os.AsyncTask<Void, Void, Void
     mRotation = rotation;
     mDelegate = delegate;
     mFaceDetector = faceDetector;
-    mImageDimensions = new ImageDimensions(width, height, rotation, facing);
+    mImageDimensions = new ImageDimensions(width, height, rotation, facing2);
     mScaleX = (double) (viewWidth) / (mImageDimensions.getWidth() * density);
     mScaleY = (double) (viewHeight) / (mImageDimensions.getHeight() * density);
     mPaddingLeft = viewPaddingLeft;
@@ -116,7 +116,7 @@ public class FaceDetectorAsyncTask extends android.os.AsyncTask<Void, Void, Void
 
     for (Face face : faces) {
       WritableMap serializedFace = FaceDetectorUtils.serializeFace(face, mScaleX, mScaleY, mWidth, mHeight, mPaddingLeft, mPaddingTop);
-      if (mImageDimensions.getFacing() == CameraView.FACING_FRONT) {
+      if (mImageDimensions.getFacing() == CameraView2.FACING_FRONT) {
         serializedFace = FaceDetectorUtils.rotateFaceX(serializedFace, mImageDimensions.getWidth(), mScaleX);
       } else {
         serializedFace = FaceDetectorUtils.changeAnglesDirection(serializedFace);

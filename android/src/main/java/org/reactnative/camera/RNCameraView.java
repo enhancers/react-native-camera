@@ -21,7 +21,7 @@ import android.view.View;
 import android.os.AsyncTask;
 import com.facebook.react.bridge.*;
 import com.facebook.react.uimanager.ThemedReactContext;
-import com.google.android.cameraview.CameraView;
+import com.google.android.cameraview.CameraView2;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.MultiFormatReader;
@@ -38,7 +38,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class RNCameraView extends CameraView implements LifecycleEventListener, BarCodeScannerAsyncTaskDelegate, FaceDetectorAsyncTaskDelegate,
+public class RNCameraView extends CameraView2 implements LifecycleEventListener, BarCodeScannerAsyncTaskDelegate, FaceDetectorAsyncTaskDelegate,
     BarcodeDetectorAsyncTaskDelegate, TextRecognizerAsyncTaskDelegate, PictureSavedDelegate {
   private ThemedReactContext mThemedReactContext;
   private Queue<Promise> mPictureTakenPromises = new ConcurrentLinkedQueue<>();
@@ -99,17 +99,17 @@ public class RNCameraView extends CameraView implements LifecycleEventListener, 
 
     addCallback(new Callback() {
       @Override
-      public void onCameraOpened(CameraView cameraView) {
+      public void onCameraOpened(CameraView2 cameraView) {
         RNCameraViewHelper.emitCameraReadyEvent(cameraView);
       }
 
       @Override
-      public void onMountError(CameraView cameraView) {
+      public void onMountError(CameraView2 cameraView) {
         RNCameraViewHelper.emitMountErrorEvent(cameraView, "Camera view threw an error - component could not be rendered.");
       }
 
       @Override
-      public void onPictureTaken(CameraView cameraView, final byte[] data, int deviceOrientation, int softwareRotation) {
+      public void onPictureTaken(CameraView2 cameraView, final byte[] data, int deviceOrientation, int softwareRotation) {
         Promise promise = mPictureTakenPromises.poll();
         ReadableMap options = mPictureTakenOptions.remove(promise);
         if (options.hasKey("fastMode") && options.getBoolean("fastMode")) {
@@ -127,7 +127,7 @@ public class RNCameraView extends CameraView implements LifecycleEventListener, 
       }
 
       @Override
-      public void onRecordingStart(CameraView cameraView, String path, int videoOrientation, int deviceOrientation) {
+      public void onRecordingStart(CameraView2 cameraView, String path, int videoOrientation, int deviceOrientation) {
         WritableMap result = Arguments.createMap();
         result.putInt("videoOrientation", videoOrientation);
         result.putInt("deviceOrientation", deviceOrientation);
@@ -136,12 +136,12 @@ public class RNCameraView extends CameraView implements LifecycleEventListener, 
       }
 
       @Override
-      public void onRecordingEnd(CameraView cameraView) {
+      public void onRecordingEnd(CameraView2 cameraView) {
         RNCameraViewHelper.emitRecordingEndEvent(cameraView);
       }
 
       @Override
-      public void onVideoRecorded(CameraView cameraView, String path, int videoOrientation, int deviceOrientation) {
+      public void onVideoRecorded(CameraView2 cameraView, String path, int videoOrientation, int deviceOrientation) {
         if (mVideoRecordedPromise != null) {
           if (path != null) {
             WritableMap result = Arguments.createMap();
@@ -160,7 +160,7 @@ public class RNCameraView extends CameraView implements LifecycleEventListener, 
       }
 
       @Override
-      public void onFramePreview(CameraView cameraView, byte[] data, int width, int height, int rotation) {
+      public void onFramePreview(CameraView2 cameraView, byte[] data, int width, int height, int rotation) {
         int correctRotation = RNCameraViewHelper.getCorrectCameraRotation(rotation, getFacing(), getCameraOrientation());
         boolean willCallBarCodeTask = mShouldScanBarCodes && !barCodeScannerTaskLock && cameraView instanceof BarCodeScannerAsyncTaskDelegate;
         boolean willCallFaceTask = mShouldDetectFaces && !faceDetectorTaskLock && cameraView instanceof FaceDetectorAsyncTaskDelegate;
@@ -177,7 +177,7 @@ public class RNCameraView extends CameraView implements LifecycleEventListener, 
         if (willCallBarCodeTask) {
           barCodeScannerTaskLock = true;
           BarCodeScannerAsyncTaskDelegate delegate = (BarCodeScannerAsyncTaskDelegate) cameraView;
-          new BarCodeScannerAsyncTask(delegate, mMultiFormatReader, data, width, height, mLimitScanArea, mScanAreaX, mScanAreaY, mScanAreaWidth, mScanAreaHeight, mCameraViewWidth, mCameraViewHeight, getAspectRatio().toFloat()).execute();
+          new BarCodeScannerAsyncTask(delegate, mMultiFormatReader, data, width, height, mLimitScanArea, mScanAreaX, mScanAreaY, mScanAreaWidth, mScanAreaHeight, mCameraViewWidth, mCameraViewHeight, getAspectRatio2().toFloat()).execute();
         }
 
         if (willCallFaceTask) {
@@ -223,7 +223,7 @@ public class RNCameraView extends CameraView implements LifecycleEventListener, 
     }
     float width = right - left;
     float height = bottom - top;
-    float ratio = getAspectRatio().toFloat();
+    float ratio = getAspectRatio2().toFloat();
     int orientation = getResources().getConfiguration().orientation;
     int correctHeight;
     int correctWidth;

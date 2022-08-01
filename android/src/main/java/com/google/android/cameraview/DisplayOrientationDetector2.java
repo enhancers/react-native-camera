@@ -26,7 +26,7 @@ import android.view.Surface;
 /**
  * Monitors the value returned from {@link Display#getRotation()}.
  */
-abstract class DisplayOrientationDetector {
+abstract class DisplayOrientationDetector2 {
 
     private final OrientationEventListener mOrientationEventListener;
 
@@ -46,7 +46,7 @@ abstract class DisplayOrientationDetector {
 
     private int mLastKnownDeviceOrientation = 0;
 
-    public DisplayOrientationDetector(Context context) {
+    public DisplayOrientationDetector2(Context context) {
         mOrientationEventListener = new OrientationEventListener(context) {
 
             /** This is either Surface.Rotation_0, _90, _180, _270, or -1 (invalid). */

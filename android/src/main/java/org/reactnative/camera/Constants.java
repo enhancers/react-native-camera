@@ -15,11 +15,11 @@
  */
 package org.reactnative.camera;
 
-import com.google.android.cameraview.AspectRatio;
+import com.google.android.cameraview.AspectRatio2;
 
 public interface Constants {
 
-  AspectRatio DEFAULT_ASPECT_RATIO = AspectRatio.of(4, 3);
+  AspectRatio2 DEFAULT_ASPECT_RATIO = AspectRatio2.of(4, 3);
 
   int FACING_BACK = 0;
   int FACING_FRONT = 1;

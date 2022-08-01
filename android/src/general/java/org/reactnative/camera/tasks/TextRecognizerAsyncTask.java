@@ -9,7 +9,7 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.uimanager.ThemedReactContext;
-import com.google.android.cameraview.CameraView;
+import com.google.android.cameraview.CameraView2;
 import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.Text.Line;
 import com.google.mlkit.vision.text.Text.TextBlock;
@@ -48,7 +48,7 @@ public class TextRecognizerAsyncTask extends android.os.AsyncTask<Void, Void, Li
           int height,
           int rotation,
           float density,
-          int facing,
+          int facing2,
           int viewWidth,
           int viewHeight,
           int viewPaddingLeft,
@@ -60,7 +60,7 @@ public class TextRecognizerAsyncTask extends android.os.AsyncTask<Void, Void, Li
     mWidth = width;
     mHeight = height;
     mRotation = rotation;
-    mImageDimensions = new ImageDimensions(width, height, rotation, facing);
+    mImageDimensions = new ImageDimensions(width, height, rotation, facing2);
     mScaleX = (double) (viewWidth) / (mImageDimensions.getWidth() * density);
     mScaleY = (double) (viewHeight) / (mImageDimensions.getHeight() * density);
     mPaddingLeft = viewPaddingLeft;
@@ -88,7 +88,7 @@ public class TextRecognizerAsyncTask extends android.os.AsyncTask<Void, Void, Li
       for (int i = 0; i < textBlocks.size(); ++i) {
         TextBlock textBlock = textBlocks.get(i);
         WritableMap serializedTextBlock = serializeText(textBlock);
-        if (mImageDimensions.getFacing() == CameraView.FACING_FRONT) {
+        if (mImageDimensions.getFacing() == CameraView2.FACING_FRONT) {
           serializedTextBlock = rotateTextX(serializedTextBlock);
         }
         textBlocksList.pushMap(serializedTextBlock);

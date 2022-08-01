@@ -30,10 +30,10 @@ import java.util.Set;
 import java.util.SortedSet;
 
 
-abstract class CameraViewImpl {
+abstract class CameraViewImpl2 {
 
     protected final Callback mCallback;
-    protected final PreviewImpl mPreview;
+    protected final PreviewImpl2 mPreview;
 
     // Background handler that the implementation an use to run heavy tasks in background
     // in a thread/looper provided by the view.
@@ -42,7 +42,7 @@ abstract class CameraViewImpl {
     // by itself.
     protected final Handler mBgHandler;
 
-    CameraViewImpl(Callback callback, PreviewImpl preview, Handler bgHandler) {
+    CameraViewImpl2(Callback callback, PreviewImpl2 preview, Handler bgHandler) {
         mCallback = callback;
         mPreview = preview;
         mBgHandler = bgHandler;
@@ -61,7 +61,7 @@ abstract class CameraViewImpl {
 
     abstract boolean isCameraOpened();
 
-    abstract void setFacing(int facing);
+    abstract void setFacing(int facing2);
   
     abstract int getFacing();
 
@@ -69,28 +69,28 @@ abstract class CameraViewImpl {
 
     abstract String getCameraId();
 
-    abstract Set<AspectRatio> getSupportedAspectRatios();
+    abstract Set<AspectRatio2> getSupportedAspectRatio2s();
 
     abstract List<Properties> getCameraIds();
 
-    abstract SortedSet<Size> getAvailablePictureSizes(AspectRatio ratio);
+    abstract SortedSet<Size2> getAvailablePictureSizes(AspectRatio2 ratio);
 
-    abstract void setPictureSize(Size size);
+    abstract void setPictureSize(Size2 size);
 
-    abstract Size getPictureSize();
+    abstract Size2 getPictureSize();
 
     /**
      * @return {@code true} if the aspect ratio was changed.
      */
-    abstract boolean setAspectRatio(AspectRatio ratio);
+    abstract boolean setAspectRatio2(AspectRatio2 ratio);
 
-    abstract AspectRatio getAspectRatio();
+    abstract AspectRatio2 getAspectRatio2();
 
     abstract void setAutoFocus(boolean autoFocus);
 
     abstract boolean getAutoFocus();
 
-    abstract void setFlash(int flash);
+    abstract void setFlash(int flash2);
 
     abstract int getFlash();
 
@@ -149,7 +149,7 @@ abstract class CameraViewImpl {
 
     abstract public void setPreviewTexture(SurfaceTexture surfaceTexture);
 
-    abstract public Size getPreviewSize();
+    abstract public Size2 getPreviewSize();
 
     interface Callback {
 

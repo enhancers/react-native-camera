@@ -24,19 +24,19 @@ import android.os.Handler;
 
 
 @TargetApi(23)
-class Camera2Api23 extends Camera2 {
+class Camera2Api23a extends Camera2a {
 
-    Camera2Api23(Callback callback, PreviewImpl preview, Context context, Handler bgHandler) {
+    Camera2Api23a(Callback callback, PreviewImpl2 preview, Context context, Handler bgHandler) {
         super(callback, preview, context, bgHandler);
     }
 
     @Override
-    protected void collectPictureSizes(SizeMap sizes, StreamConfigurationMap map) {
+    protected void collectPictureSizes(SizeMap2 sizes, StreamConfigurationMap map) {
         // Try to get hi-res output sizes
         android.util.Size[] outputSizes = map.getHighResolutionOutputSizes(ImageFormat.JPEG);
         if (outputSizes != null) {
             for (android.util.Size size : map.getHighResolutionOutputSizes(ImageFormat.JPEG)) {
-                sizes.add(new Size(size.getWidth(), size.getHeight()));
+                sizes.add(new Size2(size.getWidth(), size.getHeight()));
             }
         }
         if (sizes.isEmpty()) {

@@ -24,7 +24,7 @@ import android.view.View;
 /**
  * Encapsulates all the operations related to camera preview in a backward-compatible manner.
  */
-abstract class PreviewImpl {
+abstract class PreviewImpl2 {
 
     interface Callback {
         void onSurfaceChanged();

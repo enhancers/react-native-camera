@@ -13,12 +13,12 @@ import com.facebook.react.common.build.ReactBuildConfig;
 import com.facebook.react.uimanager.NativeViewHierarchyManager;
 import com.facebook.react.uimanager.UIBlock;
 import com.facebook.react.uimanager.UIManagerModule;
-import com.google.android.cameraview.AspectRatio;
+import com.google.android.cameraview.AspectRatio2;
 import com.google.zxing.BarcodeFormat;
 import org.reactnative.barcodedetector.BarcodeFormatUtils;
 import org.reactnative.camera.utils.ScopedContext;
 import org.reactnative.facedetector.RNFaceDetector;
-import com.google.android.cameraview.Size;
+import com.google.android.cameraview.Size2;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -380,8 +380,8 @@ public class CameraModule extends ReactContextBaseJavaModule {
                   cameraView = (RNCameraView) nativeViewHierarchyManager.resolveView(viewTag);
                   WritableArray result = Arguments.createArray();
                   if (cameraView.isCameraOpened()) {
-                      Set<AspectRatio> ratios = cameraView.getSupportedAspectRatios();
-                      for (AspectRatio ratio : ratios) {
+                      Set<AspectRatio2> ratios = cameraView.getSupportedAspectRatio2s();
+                      for (AspectRatio2 ratio : ratios) {
                           result.pushString(ratio.toString());
                       }
                       promise.resolve(result);
@@ -435,8 +435,8 @@ public class CameraModule extends ReactContextBaseJavaModule {
                   cameraView = (RNCameraView) nativeViewHierarchyManager.resolveView(viewTag);
                   WritableArray result = Arguments.createArray();
                   if (cameraView.isCameraOpened()) {
-                      SortedSet<Size> sizes = cameraView.getAvailablePictureSizes(AspectRatio.parse(ratio));
-                      for (Size size : sizes) {
+                      SortedSet<Size2> sizes = cameraView.getAvailablePictureSizes(AspectRatio2.parse(ratio));
+                      for (Size2 size : sizes) {
                           result.pushString(size.toString());
                       }
                       promise.resolve(result);

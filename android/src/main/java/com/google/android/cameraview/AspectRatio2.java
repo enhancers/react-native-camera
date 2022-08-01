@@ -24,37 +24,37 @@ import androidx.collection.SparseArrayCompat;
 /**
  * Immutable class for describing proportional relationship between width and height.
  */
-public class AspectRatio implements Comparable<AspectRatio>, Parcelable {
+public class AspectRatio2 implements Comparable<AspectRatio2>, Parcelable {
 
-    private final static SparseArrayCompat<SparseArrayCompat<AspectRatio>> sCache
+    private final static SparseArrayCompat<SparseArrayCompat<AspectRatio2>> sCache
             = new SparseArrayCompat<>(16);
 
     private final int mX;
     private final int mY;
 
     /**
-     * Returns an instance of {@link AspectRatio} specified by {@code x} and {@code y} values.
+     * Returns an instance of {@link AspectRatio2} specified by {@code x} and {@code y} values.
      * The values {@code x} and {@code} will be reduced by their greatest common divider.
      *
      * @param x The width
      * @param y The height
-     * @return An instance of {@link AspectRatio}
+     * @return An instance of {@link AspectRatio2}
      */
-    public static AspectRatio of(int x, int y) {
+    public static AspectRatio2 of(int x, int y) {
         int gcd = gcd(x, y);
         x /= gcd;
         y /= gcd;
-        SparseArrayCompat<AspectRatio> arrayX = sCache.get(x);
+        SparseArrayCompat<AspectRatio2> arrayX = sCache.get(x);
         if (arrayX == null) {
-            AspectRatio ratio = new AspectRatio(x, y);
+            AspectRatio2 ratio = new AspectRatio2(x, y);
             arrayX = new SparseArrayCompat<>();
             arrayX.put(y, ratio);
             sCache.put(x, arrayX);
             return ratio;
         } else {
-            AspectRatio ratio = arrayX.get(y);
+            AspectRatio2 ratio = arrayX.get(y);
             if (ratio == null) {
-                ratio = new AspectRatio(x, y);
+                ratio = new AspectRatio2(x, y);
                 arrayX.put(y, ratio);
             }
             return ratio;
@@ -62,13 +62,13 @@ public class AspectRatio implements Comparable<AspectRatio>, Parcelable {
     }
 
     /**
-     * Parse an {@link AspectRatio} from a {@link String} formatted like "4:3".
+     * Parse an {@link AspectRatio2} from a {@link String} formatted like "4:3".
      *
      * @param s The string representation of the aspect ratio
      * @return The aspect ratio
      * @throws IllegalArgumentException when the format is incorrect.
      */
-    public static AspectRatio parse(String s) {
+    public static AspectRatio2 parse(String s) {
         int position = s.indexOf(':');
         if (position == -1) {
             throw new IllegalArgumentException("Malformed aspect ratio: " + s);
@@ -76,13 +76,13 @@ public class AspectRatio implements Comparable<AspectRatio>, Parcelable {
         try {
             int x = Integer.parseInt(s.substring(0, position));
             int y = Integer.parseInt(s.substring(position + 1));
-            return AspectRatio.of(x, y);
+            return AspectRatio2.of(x, y);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Malformed aspect ratio: " + s, e);
         }
     }
 
-    private AspectRatio(int x, int y) {
+    private AspectRatio2(int x, int y) {
         mX = x;
         mY = y;
     }
@@ -95,7 +95,7 @@ public class AspectRatio implements Comparable<AspectRatio>, Parcelable {
         return mY;
     }
 
-    public boolean matches(Size size) {
+    public boolean matches(Size2 size) {
         int gcd = gcd(size.getWidth(), size.getHeight());
         int x = size.getWidth() / gcd;
         int y = size.getHeight() / gcd;
@@ -110,8 +110,8 @@ public class AspectRatio implements Comparable<AspectRatio>, Parcelable {
         if (this == o) {
             return true;
         }
-        if (o instanceof AspectRatio) {
-            AspectRatio ratio = (AspectRatio) o;
+        if (o instanceof AspectRatio2) {
+            AspectRatio2 ratio = (AspectRatio2) o;
             return mX == ratio.mX && mY == ratio.mY;
         }
         return false;
@@ -133,7 +133,7 @@ public class AspectRatio implements Comparable<AspectRatio>, Parcelable {
     }
 
     @Override
-    public int compareTo(@NonNull AspectRatio another) {
+    public int compareTo(@NonNull AspectRatio2 another) {
         if (equals(another)) {
             return 0;
         } else if (toFloat() - another.toFloat() > 0) {
@@ -143,11 +143,11 @@ public class AspectRatio implements Comparable<AspectRatio>, Parcelable {
     }
 
     /**
-     * @return The inverse of this {@link AspectRatio}.
+     * @return The inverse of this {@link AspectRatio2}.
      */
-    public AspectRatio inverse() {
+    public AspectRatio2 inverse() {
         //noinspection SuspiciousNameCombination
-        return AspectRatio.of(mY, mX);
+        return AspectRatio2.of(mY, mX);
     }
 
     private static int gcd(int a, int b) {
@@ -170,19 +170,19 @@ public class AspectRatio implements Comparable<AspectRatio>, Parcelable {
         dest.writeInt(mY);
     }
 
-    public static final Parcelable.Creator<AspectRatio> CREATOR
-            = new Parcelable.Creator<AspectRatio>() {
+    public static final Parcelable.Creator<AspectRatio2> CREATOR
+            = new Parcelable.Creator<AspectRatio2>() {
 
         @Override
-        public AspectRatio createFromParcel(Parcel source) {
+        public AspectRatio2 createFromParcel(Parcel source) {
             int x = source.readInt();
             int y = source.readInt();
-            return AspectRatio.of(x, y);
+            return AspectRatio2.of(x, y);
         }
 
         @Override
-        public AspectRatio[] newArray(int size) {
-            return new AspectRatio[size];
+        public AspectRatio2[] newArray(int size) {
+            return new AspectRatio2[size];
         }
     };
 

@@ -23,23 +23,23 @@ import androidx.annotation.NonNull;
 /**
  * Immutable class for describing width and height dimensions in pixels.
  */
-public class Size implements Comparable<Size>, Parcelable {
+public class Size2 implements Comparable<Size2>, Parcelable {
 
     private final int mWidth;
     private final int mHeight;
 
     /**
-     * Create a new immutable Size instance.
+     * Create a new immutable Size2 instance.
      *
      * @param width  The width of the size, in pixels
      * @param height The height of the size, in pixels
      */
-    public Size(int width, int height) {
+    public Size2(int width, int height) {
         mWidth = width;
         mHeight = height;
     }
     
-    public static Size parse(String s) {
+    public static Size2 parse(String s) {
         int position = s.indexOf('x');
         if (position == -1) {
             throw new IllegalArgumentException("Malformed size: " + s);
@@ -47,7 +47,7 @@ public class Size implements Comparable<Size>, Parcelable {
         try {
             int width = Integer.parseInt(s.substring(0, position));
             int height = Integer.parseInt(s.substring(position + 1));
-            return new Size(width, height);
+            return new Size2(width, height);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Malformed size: " + s, e);
         }
@@ -69,8 +69,8 @@ public class Size implements Comparable<Size>, Parcelable {
         if (this == o) {
             return true;
         }
-        if (o instanceof Size) {
-            Size size = (Size) o;
+        if (o instanceof Size2) {
+            Size2 size = (Size2) o;
             return mWidth == size.mWidth && mHeight == size.mHeight;
         }
         return false;
@@ -88,7 +88,7 @@ public class Size implements Comparable<Size>, Parcelable {
     }
 
     @Override
-    public int compareTo(@NonNull Size another) {
+    public int compareTo(@NonNull Size2 another) {
         return mWidth * mHeight - another.mWidth * another.mHeight;
     }
     
@@ -103,17 +103,17 @@ public class Size implements Comparable<Size>, Parcelable {
         dest.writeInt(mHeight);
     }
     
-    public static final Parcelable.Creator<Size> CREATOR = new Parcelable.Creator<Size>() {
+    public static final Parcelable.Creator<Size2> CREATOR = new Parcelable.Creator<Size2>() {
         @Override
-        public Size createFromParcel(Parcel source) {
+        public Size2 createFromParcel(Parcel source) {
             int width = source.readInt();
             int height = source.readInt();
-            return new Size(width, height);
+            return new Size2(width, height);
         }
 
         @Override
-        public Size[] newArray(int size) {
-            return new Size[size];
+        public Size2[] newArray(int size) {
+            return new Size2[size];
         }
     };
 }
