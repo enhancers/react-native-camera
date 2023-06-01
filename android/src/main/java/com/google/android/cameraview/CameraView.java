@@ -251,6 +251,7 @@ public class CameraView extends FrameLayout {
         state.cameraId = getCameraId();
         state.ratio = getAspectRatio();
         state.autoFocus = getAutoFocus();
+        state.antiBandingMode = getAntiBanding();
         state.flash = getFlash();
         state.exposure = getExposureCompensation();
         state.focusDepth = getFocusDepth();
@@ -275,6 +276,7 @@ public class CameraView extends FrameLayout {
         setCameraId(ss.cameraId);
         setAspectRatio(ss.ratio);
         setAutoFocus(ss.autoFocus);
+        setAntiBanding(ss.antiBandingMode);
         setFlash(ss.flash);
         setExposureCompensation(ss.exposure);
         setFocusDepth(ss.focusDepth);
@@ -525,6 +527,24 @@ public class CameraView extends FrameLayout {
     }
 
     /**
+     * Sets the AntiBanding mode
+     *
+     * @param antiBandingMode {@code int}.
+     */
+    public void setAntiBanding(int antiBandingMode) {
+        mImpl.setAntiBanding(antiBandingMode);
+    }
+
+    /**
+     * Returns the AntiBanding mode.
+     *
+     * @return antiBandingMode {@code int}.
+     */
+    public int getAntiBanding() {
+        return mImpl.getAntiBanding();
+    }
+
+    /**
      * Sets the flash mode.
      *
      * @param flash The desired flash mode.
@@ -761,6 +781,8 @@ public class CameraView extends FrameLayout {
         AspectRatio ratio;
 
         boolean autoFocus;
+
+        int antiBandingMode;
 
         @Flash
         int flash;

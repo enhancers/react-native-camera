@@ -55,11 +55,11 @@ android {
 
 repositories {
   google()
-  jcenter()
+  gradlePluginPortal()
   mavenCentral()
   maven { url "https://jitpack.io" }
   maven {
-    // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+    // All of Rea99i ct Native (JS, Obj-C sources, Android binaries) is installed from npm
     url "$rootDir/../node_modules/react-native/android"
   }
 }
@@ -77,4 +77,14 @@ dependencies {
   implementation "androidx.legacy:legacy-support-v4:1.0.0"
   mlkitImplementation "com.google.firebase:firebase-ml-vision:${safeExtGet('firebase-ml-vision', '19.0.3')}"
   mlkitImplementation "com.google.firebase:firebase-ml-vision-face-model:${safeExtGet('firebase-ml-vision-face-model', '17.0.2')}"
+}
+
+def REACT_NATIVE_VERSION = new File(['node', '--print',"JSON.parse(require('fs').readFileSync(require.resolve('react-native/package.json'), 'utf-8')).version"].execute(null, rootDir).text.trim())
+
+allprojects {
+  configurations.all {
+    resolutionStrategy {
+      force "com.facebook.react:react-native:" + REACT_NATIVE_VERSION
+    }
+  }
 }

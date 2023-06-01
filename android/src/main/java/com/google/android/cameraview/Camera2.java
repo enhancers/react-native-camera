@@ -248,6 +248,8 @@ class Camera2 extends CameraViewImpl implements MediaRecorder.OnInfoListener, Me
 
     private boolean mAutoFocus;
 
+    private int mAntiBandingMode;
+
     private int mFlash;
 
     private float mExposure;
@@ -517,6 +519,30 @@ class Camera2 extends CameraViewImpl implements MediaRecorder.OnInfoListener, Me
                 }
             }
         }
+    }
+
+    @Override
+    void setAntiBanding(int antiBandingMode) {
+        if (mAntiBandingMode == antiBandingMode) {
+            return;
+        }
+        mAntiBandingMode = antiBandingMode;
+        mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_ANTIBANDING_MODE,
+                antiBandingMode);
+
+        if (mCaptureSession != null) {
+            try {
+                mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),
+                        mCaptureCallback, null);
+            } catch (CameraAccessException e) {
+                Log.e("enh-v", e.toString());
+            }
+        }
+    }
+
+    @Override
+    int getAntiBanding() {
+        return mAntiBandingMode;
     }
 
     @Override

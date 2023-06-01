@@ -102,6 +102,11 @@ public class CameraViewManager extends ViewGroupManager<RNCameraView> {
     view.setAutoFocus(autoFocus);
   }
 
+  @ReactProp(name = "antiBanding", defaultInt = 3)
+  public void setAntiBanding(RNCameraView view, int antiBanding) {
+    view.setAntiBanding(antiBanding);
+  }
+
   @ReactProp(name = "focusDepth")
   public void setFocusDepth(RNCameraView view, float depth) {
     view.setFocusDepth(depth);

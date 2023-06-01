@@ -90,6 +90,10 @@ abstract class CameraViewImpl {
 
     abstract boolean getAutoFocus();
 
+    abstract void setAntiBanding(int setAntiBandingMode);
+
+    abstract int getAntiBanding();
+
     abstract void setFlash(int flash);
 
     abstract int getFlash();
