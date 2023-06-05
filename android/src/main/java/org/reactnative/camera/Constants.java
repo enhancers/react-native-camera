@@ -30,6 +30,11 @@ public interface Constants {
   int FLASH_AUTO = 3;
   int FLASH_RED_EYE = 4;
 
+  int ANTIBANDING_MODE_50HZ = 1;
+  int ANTIBANDING_MODE_60HZ = 2;
+  int ANTIBANDING_MODE_AUTO = 3;
+  int ANTIBANDING_MODE_OFF = 0;
+
   int LANDSCAPE_90 = 90;
   int LANDSCAPE_270 = 270;
 

@@ -89,6 +89,7 @@ public class CameraModule extends ReactContextBaseJavaModule {
         put("Type", getTypeConstants());
         put("FlashMode", getFlashModeConstants());
         put("AutoFocus", getAutoFocusConstants());
+        put("AntiBanding", getAntiBandingConstants());
         put("WhiteBalance", getWhiteBalanceConstants());
         put("VideoQuality", getVideoQualityConstants());
         put("BarCodeType", getBarCodeConstants());
@@ -161,6 +162,17 @@ public class CameraModule extends ReactContextBaseJavaModule {
             put("torch", Constants.FLASH_TORCH);
           }
         });
+      }
+
+      private Map<String, Object> getAntiBandingConstants() {
+          return Collections.unmodifiableMap(new HashMap<String, Object>() {
+              {
+                  put("off", 0);
+                  put("hz_50", 1);
+                  put("hz_60", 2);
+                  put("auto", 3);
+              }
+          });
       }
 
       private Map<String, Object> getAutoFocusConstants() {

@@ -23,6 +23,7 @@ type Orientation = Readonly<{
 }>;
 type OrientationNumber = 1 | 2 | 3 | 4;
 type AutoFocus = Readonly<{ on: any; off: any }>;
+type AntiBanding = Readonly<{ auto: any; off: any; hz_50: any, hz_60: any }>;
 type VideoStabilization = Readonly<{ off: any; standard: any; cinematic: any; auto: any }>;
 type FlashMode = Readonly<{ on: any; off: any; torch: any; auto: any }>;
 type CameraType = Readonly<{ front: any; back: any }>;
@@ -118,6 +119,7 @@ type FaCC = (
 export interface Constants {
   CameraStatus: CameraStatus;
   AutoFocus: AutoFocus;
+  AntiBanding: AntiBanding;
   FlashMode: FlashMode;
   VideoCodec: VideoCodec;
   Type: CameraType;
@@ -176,6 +178,7 @@ export interface RNCameraProps {
 
   autoFocus?: keyof AutoFocus;
   autoFocusPointOfInterest?: Point;
+  antiBanding?: keyof AntiBanding,
   pictureSize?: string;
 
   /* iOS only */

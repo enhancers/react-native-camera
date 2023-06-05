@@ -275,6 +275,7 @@ type PropsType = typeof View.props & {
   whiteBalance?: number | string | {temperature: number, tint: number, redGainOffset?: number, greenGainOffset?: number, blueGainOffset?: number },
   faceDetectionLandmarks?: number,
   autoFocus?: string | boolean | number,
+  antiBanding?: number,
   autoFocusPointOfInterest?: { x: number, y: number },
   faceDetectionClassifications?: number,
   onFacesDetected?: ({ faces: Array<TrackedFaceFeature> }) => void,
@@ -313,6 +314,7 @@ const RecordAudioPermissionStatusEnum: {
   NOT_AUTHORIZED: 'NOT_AUTHORIZED',
 };
 
+// RNCamera.Constants.FlashMode.on
 const CameraManager: Object = NativeModules.RNCameraManager ||
   NativeModules.RNCameraModule || {
     stubbed: true,
@@ -321,6 +323,9 @@ const CameraManager: Object = NativeModules.RNCameraManager ||
     },
     AutoFocus: {
       on: 1,
+    },
+    AntiBanding: {
+      auto: 3,
     },
     FlashMode: {
       off: 1,
@@ -358,6 +363,7 @@ export default class Camera extends React.Component<PropsType, StateType> {
     Type: CameraManager.Type,
     FlashMode: CameraManager.FlashMode,
     AutoFocus: CameraManager.AutoFocus,
+    AntiBanding: CameraManager.AntiBanding,
     WhiteBalance: CameraManager.WhiteBalance,
     VideoQuality: CameraManager.VideoQuality,
     ImageType: CameraManager.ImageType,
@@ -384,6 +390,7 @@ export default class Camera extends React.Component<PropsType, StateType> {
     flashMode: CameraManager.FlashMode,
     exposure: CameraManager.Exposure,
     autoFocus: CameraManager.AutoFocus,
+    antiBanding: CameraManager.AntiBanding,
     whiteBalance: CameraManager.WhiteBalance,
     faceDetectionMode: (CameraManager.FaceDetection || {}).Mode,
     faceDetectionLandmarks: (CameraManager.FaceDetection || {}).Landmarks,
@@ -433,6 +440,7 @@ export default class Camera extends React.Component<PropsType, StateType> {
         greenGainOffset: PropTypes.number,
         blueGainOffset: PropTypes.number })]),
     autoFocus: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    antiBanding: PropTypes.number,
     autoFocusPointOfInterest: PropTypes.shape({ x: PropTypes.number, y: PropTypes.number }),
     permissionDialogTitle: PropTypes.string,
     permissionDialogMessage: PropTypes.string,
@@ -461,6 +469,7 @@ export default class Camera extends React.Component<PropsType, StateType> {
     type: CameraManager.Type.back,
     cameraId: null,
     autoFocus: CameraManager.AutoFocus.on,
+    antiBanding: CameraManager.AntiBanding.auto,
     flashMode: CameraManager.FlashMode.off,
     exposure: -1,
     whiteBalance: CameraManager.WhiteBalance.auto,
